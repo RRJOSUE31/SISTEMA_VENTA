@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Reportes;
 use App\Exports\ReporteCaja as ExportsReporteCaja;
 use App\Exports\ReporteCajaExport;
 use App\Models\Empresa;
+use App\Models\Moneda;
 use App\Models\MovimientoCaja;
+use App\Models\tasa_dia;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,9 +21,11 @@ class ReporteCaja extends Component
 
 
     public $fecha_inicio, $fecha_fin, $sucursal_id, $empresa;
+    public $tasa_dia,$moneda_nombre,$moneda_simbolo, $fecha_inicioo, $fecha_finn,$moneda;
 
     public function render()
     {
+
         $sucursal = $this->sucursal_id;
 
         if($sucursal == 0){

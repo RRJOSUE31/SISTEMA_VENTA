@@ -78,10 +78,10 @@ class AperturaCaja extends Component
                 $caja_id = $user_auth->ultima_caja_id_apertura;
     
     
-            $movimientos_pagos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre from pago_ventas pv
+            $movimientos_pagos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre, mp.moneda as metodo_moneda from pago_ventas pv
                 right join metodo_pagos mp on pv.metodo_pago_id = mp.id
                 inner join ventas v on pv.venta_id=v.id  where v.created_at BETWEEN :fecha_apertura AND :noww AND v.user_id = :user_idd AND v.caja_id = :caja_id AND v.sucursal_id = :sucursal_id 
-                group by mp.nombre order by sum(pv.monto) desc',array('user_idd' => $user_idd,'caja_id' => $caja_id,'sucursal_id' => $sucursal_id,'fecha_apertura' => $fecha_apertura,'noww' => $now));
+                group by mp.nombre,mp.moneda order by sum(pv.monto) desc',array('user_idd' => $user_idd,'caja_id' => $caja_id,'sucursal_id' => $sucursal_id,'fecha_apertura' => $fecha_apertura,'noww' => $now));
     
             $movimientos_cambios = DB::select('SELECT sum(v.vuelto) as quantity_vueltos, mp.nombre as metodo_nombre from metodo_pagos mp 
                 inner join ventas v on v.metodo_pago_vuelto_id = mp.id where v.created_at BETWEEN :fecha_apertura AND :noww AND v.user_id = :user_idd AND v.caja_id = :caja_id AND v.sucursal_id = :sucursal_id

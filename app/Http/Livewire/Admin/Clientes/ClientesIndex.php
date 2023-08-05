@@ -54,9 +54,6 @@ class ClientesIndex extends Component
         <p class="text-sm text-gray-500 m-0 p-0 text-justify">3-.Eliminar clientes: Haga click en el botón " <i class="fas fa-trash-alt"></i> ", ubicado al lado de cada cliente, si el cliente esta asociado a una venta no podrá eliminarlo, de lo contrario confirme haciendo click en la opción " Si, seguro " .</p> ');
     }
     public function export(){
-       
-
-
         return Excel::download(new ClientesExport(), 'Clientes.xlsx');
     }
 }

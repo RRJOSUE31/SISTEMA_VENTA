@@ -226,13 +226,7 @@
                             </div> 
 
                 
-                            <div class="flex w-full ml-4">
-                                <p class="text-gray-500 font-semibold mr-3">Descuento en venta</p>
-                                <div class="w-1/2">
-                                    <input wire:model="descuento" type="number" min="0" title="Descuento en venta" class="w-full px-2 appearance-none block bg-gray-100 text-gray-700 border border-gray-200 rounded py-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Descuento en %">
-                                    <x-input-error for="descuento" />
-                                </div>
-                            </div>
+              
 
                             {{--metodos de pago--}}
 
@@ -240,7 +234,7 @@
                             
                                 <p class="text-gray-500 font-semibold mr-4">Métodos de pago</p>
                             
-                                <div class="w-1/2 justify-start ml-2">
+                                <div class="w-full justify-start ml-2">
                                     {{--con 1 metodo--}}
                                     <div class="flex w-full ">
                                     
@@ -379,6 +373,14 @@
                                         <input wire:model="pago_cliente" type="number" title="Pago inicial" min="0" class="w-full px-2 appearance-none block bg-gray-100 text-gray-700 border border-gray-200 rounded py-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Pago inicial">
                                         <x-input-error for="pago_cliente" />
                                     </div>
+                            </div>
+
+                            <div class="flex w-full ml-4">
+                                <p class="text-gray-500 font-semibold mr-3">Descuento en venta</p>
+                                <div class="w-1/3">
+                                    <input wire:model="descuento" type="number" min="0" title="Descuento en venta" class="w-full px-2 appearance-none block bg-gray-100 text-gray-700 border border-gray-200 rounded py-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Descuento en %">
+                                    <x-input-error for="descuento" />
+                                </div>
                             </div>
 
                         </div>

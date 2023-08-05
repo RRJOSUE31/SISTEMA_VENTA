@@ -2,6 +2,11 @@
 
 namespace App\Http\Livewire\Ventas;
 
+use App\Models\MovimientoCaja;
+use App\Models\Pago_venta;
+use App\Models\Producto;
+use App\Models\Producto_lote;
+use App\Models\Producto_venta;
 use App\Models\Venta;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -52,10 +57,38 @@ class VentasPorCliente extends Component
     }
 
     public function confirmacion(){
+
         $venta_destroy = Venta::where('id',$this->venta)->first();
         $venta_destroy->update([
             'estado' => 'anulada',
         ]);
+
+        $movimiento = MovimientoCaja::where('venta_id',$venta_destroy->id)->first();
+        $movimiento->delete();
+
+        $pago_ventas = Pago_venta::where('venta_id',$venta_destroy->id)->first();
+        $pago_ventas->delete();
+
+        $productos_venta = Producto_venta::where('venta_id',$venta_destroy->id)->get();
+
+        foreach($productos_venta as $producto_venta){
+
+            //incrementando en tabla productos
+
+            $buscar_producto = Producto::where('id',$producto_venta->producto_id)->first();
+            $buscar_producto->increment('cantidad',$producto_venta->cantidad);
+
+            //incrementando en tabla producto_lotes
+
+            $producto_lote = Producto_lote::where('status','activo')
+                ->where('producto_id',$producto_venta->producto_id)
+                ->first();
+
+           
+
+            $producto_lote->increment('stock',$producto_venta->cantidad);
+        }
+
         $this->resetPage();
     }
 

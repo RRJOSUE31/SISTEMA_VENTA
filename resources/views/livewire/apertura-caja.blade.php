@@ -148,10 +148,10 @@
                                                             Ingreso
                                                         </th>
                                                         <td class="py-2 px-2 text-md text-center">
-                                                            {{$value['metodo_nombre']}}
+                                                         {{$value['metodo_nombre']}}
                                                         </td>
                                                         <td class="py-2 px-2 text-md text-center">
-                                                            {{$value['quantity']}}
+                                                        {{$value['metodo_moneda']}}  {{$value['quantity']}}
                                                         </td>
                                                     </tr>
                                             @endforeach 

@@ -127,36 +127,36 @@ class ProductosAdd extends Component
                     if($this->act_utilidades == 1){
                         if($this->margen_letal != ''){
                             $this->reset(['precio_letal','utilidad_letal']);
-                            $this->precio_letal = round(($this->precio_entrada / (1 - ($this->margen_letal / 100))),2);
-                            $this->utilidad_letal = round(($this->precio_letal - $this->precio_entrada),2);
+                            $this->precio_letal = bcdiv($this->precio_entrada / (1 - ($this->margen_letal / 100)), '1', 5);
+                            $this->utilidad_letal = bcdiv($this->precio_letal - $this->precio_entrada, '1', 5);
                         }
                         if($this->margen_mayor != ''){
                             $this->reset(['precio_mayor','utilidad_mayor']);
-                            $this->precio_mayor = round(($this->precio_entrada / (1- ($this->margen_mayor / 100))),2);
-                            $this->utilidad_mayor = round(($this->precio_mayor - $this->precio_entrada),2);
+                            $this->precio_mayor = bcdiv($this->precio_entrada / (1- ($this->margen_mayor / 100)), '1', 5);
+                            $this->utilidad_mayor = bcdiv($this->precio_mayor - $this->precio_entrada, '1', 5);
                         }
                         if($this->margen_combo != ''){
                             $this->reset(['precio_combo','utilidad_combo']);
-                            $this->precio_combo = round(($this->precio_entrada / (1- ($this->margen_combo / 100))),2);
-                            $this->utilidad_combo = round(($this->precio_combo - $this->precio_entrada),2);
+                            $this->precio_combo = bcdiv($this->precio_entrada / (1- ($this->margen_combo / 100)), '1', 5);
+                            $this->utilidad_combo = bcdiv($this->precio_combo - $this->precio_entrada, '1', 5);
                         }
                     }
         
                     elseif($this->act_utilidades == 2){
                         if($this->utilidad_letal != ''){
                             $this->reset(['precio_letal','margen_letal']);
-                            $this->precio_letal = round(($this->precio_entrada + $this->utilidad_letal),2);
-                            $this->margen_letal = round((($this->utilidad_letal / $this->precio_letal) * 100),2);
+                            $this->precio_letal = bcdiv($this->precio_entrada + $this->utilidad_letal, '1', 5);
+                            $this->margen_letal =  bcdiv(($this->utilidad_letal / $this->precio_letal) * 100, '1', 5);
                         }
                         if($this->utilidad_mayor != ''){
                             $this->reset(['precio_mayor','margen_mayor']);
-                            $this->precio_mayor = round(($this->precio_entrada + $this->utilidad_mayor),2);
-                            $this->margen_mayor = round((($this->utilidad_mayor / $this->precio_mayor) * 100),2);
+                            $this->precio_mayor = bcdiv($this->precio_entrada + $this->utilidad_mayor, '1', 5);
+                            $this->margen_mayor = bcdiv(($this->utilidad_mayor / $this->precio_mayor) * 100, '1', 5);
                         }
                         if($this->utilidad_combo != ''){
                             $this->reset(['precio_combo','margen_combo']);
-                            $this->precio_combo = round(($this->precio_entrada + $this->utilidad_combo),2);
-                            $this->margen_combo = round((($this->utilidad_combo / $this->precio_combo) * 100),2);
+                            $this->precio_combo = bcdiv($this->precio_entrada + $this->utilidad_combo, '1', 5);
+                            $this->margen_combo = bcdiv(($this->utilidad_combo / $this->precio_combo) * 100, '1', 5);
                         }
                     }
                 }
@@ -368,7 +368,7 @@ class ProductosAdd extends Component
                 $movimiento_caja->fecha = $this->fecha_actual;
                 $movimiento_caja->tipo_movimiento = 2;
                 if($this->saldado_proveedor == '1') $movimiento_caja->cantidad = $total_compra;
-                else $movimiento_caja->cantidad = $this->pago;
+                else $movimiento_caja->cantidad = $this->pago;     
                 $movimiento_caja->estado = 'etregado';
                 $movimiento_caja->observacion = 'Compra de producto';
                 $movimiento_caja->user_id = $usuario_auth;

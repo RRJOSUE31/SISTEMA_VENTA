@@ -13,7 +13,7 @@ use PDF;
 class Iva extends Component
 {
     public $fecha_inicio, $fecha_fin, $sucursal_id, $ventas_realizadas_e, $total_ventas_e, $total_costos_e, $total_ganancias_e;
-    public $tasa_dia,$moneda_nombre,$moneda_simbolo, $fecha_inicioo, $fecha_finn;
+    public $tasa_dia,$moneda_nombre,$moneda_simbolo, $fecha_inicioo, $fecha_finn,$moneda;
 
     public function mount(){
         $this->fecha_inicioo = date("Y-m-d",strtotime($this->fecha_inicio));
@@ -50,7 +50,7 @@ class Iva extends Component
             where v.fecha BETWEEN :fecha_inicioo AND :fecha_finn AND v.estado = "activa"'
             ,array('fecha_inicioo' => $this->fecha_inicioo,'fecha_finn' => $this->fecha_finn));
     
-            $pagos_metodos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre from pago_ventas pv
+            $pagos_metodos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre, mp.moneda as metodo_moneda from pago_ventas pv
             right join metodo_pagos mp on pv.metodo_pago_id = mp.id
             inner join ventas v on pv.venta_id=v.id  where v.fecha BETWEEN :fecha_inicioo AND :fecha_finn AND v.estado = "activa"
             group by mp.nombre order by sum(pv.monto) desc',array('fecha_inicioo' => $this->fecha_inicioo,'fecha_finn' => $this->fecha_finn));
@@ -64,7 +64,7 @@ class Iva extends Component
             where v.fecha BETWEEN :fecha_inicioo AND :fecha_finn AND v.estado = "activa" and :sucursal = v.sucursal_id'
             ,array('fecha_inicioo' => $this->fecha_inicioo,'fecha_finn' => $this->fecha_finn, 'sucursal' => $sucursal));
     
-            $pagos_metodos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre from pago_ventas pv
+            $pagos_metodos = DB::select('SELECT sum(pv.monto) as quantity, mp.nombre as metodo_nombre, mp.moneda as metodo_moneda from pago_ventas pv
             right join metodo_pagos mp on pv.metodo_pago_id = mp.id
             inner join ventas v on pv.venta_id=v.id  where v.fecha BETWEEN :fecha_inicioo AND :fecha_finn AND v.estado = "activa" and :sucursal = v.sucursal_id
             group by mp.nombre order by sum(pv.monto) desc',array('fecha_inicioo' => $this->fecha_inicioo,'fecha_finn' => $this->fecha_finn, 'sucursal' => $sucursal));

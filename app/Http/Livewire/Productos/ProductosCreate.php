@@ -136,6 +136,7 @@ class ProductosCreate extends Component
 
     public function save()
     {
+        
         $rules = $this->rules;
         $this->validate($rules);
 
@@ -163,8 +164,6 @@ class ProductosCreate extends Component
 
             if($this->moneda_id == '1') $tasa_dia = 1;
             else $tasa_dia = tasa_dia::where('moneda_id',$this->moneda_id)->first()->tasa; 
-            
-            
 
             //agregando producto en tabla productos
             $producto = new Producto();
@@ -307,36 +306,36 @@ class ProductosCreate extends Component
             if($this->act_utilidades == 1){
                 if($this->margen_letal != '' && $this->margen_letal != 0 ){
                     $this->reset(['precio_letal','utilidad_letal']);
-                    $this->precio_letal = round(($this->precio_entrada / (1 - ($this->margen_letal / 100))),2);
-                    $this->utilidad_letal = round(($this->precio_letal - $this->precio_entrada),2);
+                    $this->precio_letal = $this->precio_entrada / (1 - ($this->margen_letal / 100));
+                    $this->utilidad_letal = $this->precio_letal - $this->precio_entrada;
                 }
                 if($this->margen_mayor != '' && $this->margen_mayor != 0){
                     $this->reset(['precio_mayor','utilidad_mayor']);
-                    $this->precio_mayor = round(($this->precio_entrada / (1- ($this->margen_mayor / 100))),2);
-                    $this->utilidad_mayor = round(($this->precio_mayor - $this->precio_entrada),2);
+                    $this->precio_mayor = $this->precio_entrada / (1- ($this->margen_mayor / 100));
+                    $this->utilidad_mayor = $this->precio_mayor - $this->precio_entrada;
                 }
                 if($this->margen_combo != '' && $this->margen_mayor != 0){
                     $this->reset(['precio_combo','utilidad_combo']);
-                    $this->precio_combo = round(($this->precio_entrada / (1- ($this->margen_combo / 100))),2);
-                    $this->utilidad_combo = round(($this->precio_combo - $this->precio_entrada),2);
+                    $this->precio_combo = $this->precio_entrada / (1- ($this->margen_combo / 100));
+                    $this->utilidad_combo = $this->precio_combo - $this->precio_entrada;
                 }
             }
         
             elseif($this->act_utilidades == 2){
                 if($this->utilidad_letal != '' && $this->utilidad_letal != 0){
                     $this->reset(['precio_letal','margen_letal']);
-                    $this->precio_letal = round(($this->precio_entrada + $this->utilidad_letal),2);
-                    $this->margen_letal = round((($this->utilidad_letal / $this->precio_letal) * 100),2);
+                    $this->precio_letal = $this->precio_entrada + $this->utilidad_letal;
+                    $this->margen_letal = ($this->utilidad_letal / $this->precio_letal) * 100;
                 }
                 if($this->utilidad_mayor != '' && $this->utilidad_mayor != 0){
                     $this->reset(['precio_mayor','margen_mayor']);
-                    $this->precio_mayor = round(($this->precio_entrada + $this->utilidad_mayor),2);
-                    $this->margen_mayor = round((($this->utilidad_mayor / $this->precio_mayor) * 100),2);
+                    $this->precio_mayor = $this->precio_entrada + $this->utilidad_mayor;
+                    $this->margen_mayor = ($this->utilidad_mayor / $this->precio_mayor) * 100;
                 }
                 if($this->utilidad_combo != '' && $this->utilidad_combo != 0){
                     $this->reset(['precio_combo','margen_combo']);
-                    $this->precio_combo = round(($this->precio_entrada + $this->utilidad_combo),2);
-                    $this->margen_combo = round((($this->utilidad_combo / $this->precio_combo) * 100),2);
+                    $this->precio_combo = $this->precio_entrada + $this->utilidad_combo;
+                    $this->margen_combo = ($this->utilidad_combo / $this->precio_combo) * 100;
                 }
             }
         }
